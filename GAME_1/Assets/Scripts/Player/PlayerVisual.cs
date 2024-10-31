@@ -15,8 +15,6 @@ public class PlayerVisual : MonoBehaviour
     private const string is_attack_down = "IsAttackingDown";
     private const string is_attack_left = "IsAttackingLeft";
     private const string is_attack_right = "IsAttackingRight";
-    private bool is_attacking = false;
-    //private const string is_attack = "IsAttacking"; //?
     private void Awake()
     {
         anim = GetComponent<Animator>();

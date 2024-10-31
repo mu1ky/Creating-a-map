@@ -18,6 +18,7 @@ public class Gun : MonoBehaviour
     private bool isAttackingDown = false;
     private bool isAttackingLeft = false;
     private bool isAttackingRight = false;
+    private bool returnToIdle = true;
     public bool IsAttackingUp()
     {
         return isAttackingUp;
@@ -34,11 +35,20 @@ public class Gun : MonoBehaviour
     {
         return isAttackingRight;
     }
+    public bool ReturnToIdle()
+    {
+        return returnToIdle;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Shoot();
+            returnToIdle = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            returnToIdle = true;
         }
     }
     private void Shoot()
@@ -64,18 +74,18 @@ public class Gun : MonoBehaviour
             _shotpoint_dir = _shotpoint.right;
             isAttackingRight = true;
         }
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    RaycastHit2D hit = Physics2D.Raycast(_shotpoint.position, _shotpoint_dir);
-        //    if (hit)
-        //    {
-        //        Enemy_movement en = hit.transform.GetComponent<Enemy_movement>();
-        //        if (en != null)
-        //        {
-        //            en.TakeDamage(dam);
-        //        }
-        //        Instantiate(DamageEffect, hit.point, Quaternion.identity);
-        //    }
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(_shotpoint.position, _shotpoint_dir);
+            if (hit)
+            {
+                Enemy_movement en = hit.transform.GetComponent<Enemy_movement>();
+                if (en != null)
+                {
+                    en.TakeDamage(dam);
+                }
+                Instantiate(DamageEffect, hit.point, Quaternion.identity);
+            }
+        }
     }
 }

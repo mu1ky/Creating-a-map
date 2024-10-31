@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private bool isRunningDown;
     private bool isRunningLeftRight;
     private bool rev;
+    private bool returnToIdle = true;
 
     /*
     public bool IsAttcking()
@@ -94,6 +95,7 @@ public class Player : MonoBehaviour
             togetherY = false;
             togetherX = false;
             rev = false;
+            returnToIdle = false;
         }
     }
 

@@ -7,6 +7,9 @@ using Game.Utils; //для доступа к функции случайного выбора направления
 using UnityEngine.InputSystem.XR.Haptics;
 using UnityEditor.ShaderKeywordFilter;
 using Unity.Burst.Intrinsics;
+using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
+
 public class Enemy_movement : MonoBehaviour
 {
     //Задаём движение врага через машинное состояние и использование NavMesh
@@ -18,9 +21,8 @@ public class Enemy_movement : MonoBehaviour
     [SerializeField] private float _roamingdistanceMin = 3f; //минимальное состояние брожения
     [SerializeField] private float _roamingTimeMax = 2f; //максимальное время брожения
     [SerializeField] private bool _isChacingEnemy = false; //способность врага преследовать
-    //флаг, говорящий о том, является ли враг преследующим
-    //[SerializeField] private bool _isRunningEnemy = false;
     [SerializeField] private bool _isAttackingEnemy = false; //способность врага атаковать
+    [SerializeField] private bool IsDie = false;
     //флаг, говорящий о том, является ли враг преследующим
     private enum State
     {
@@ -47,6 +49,8 @@ public class Enemy_movement : MonoBehaviour
 
     [SerializeField] private float _attackRate = 2f; //периодичность атаки
     private float _nextAttackTime = 0f; //время следующей атаки
+
+    private BoxCollider2D _collider;
     public bool IsRunning
     //метод (свойство), который отслеживает бежит враг или нет
     {
@@ -77,6 +81,11 @@ public class Enemy_movement : MonoBehaviour
         _roamingSpeed = _MAINSpeed;
         //_chacingSpeed = _navMeshAgent.speed * _chacingSpeedMultiplaier; //определяем скорость преследования
         _chacingSpeed = _MAINSpeed * _chacingSpeedMultiplaier;
+    }
+
+    private void Start()
+    {
+        _health = _max_health;
     }
     private void Update()
     {
@@ -228,5 +237,16 @@ public class Enemy_movement : MonoBehaviour
             _lastPosition = transform.position;
             _checkDirectionTime = Time.time * _checkDirectionDeltaTime;
         }
+    }
+    private int _health;
+    private int _max_health=20;
+    public void TakeDamage(int damage)
+    {
+        _health -= damage;
+        if (_health <= 0)
+        {
+            IsDie = true;
+        }
+
     }
 }
