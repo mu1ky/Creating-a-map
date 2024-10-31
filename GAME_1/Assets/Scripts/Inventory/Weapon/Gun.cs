@@ -44,11 +44,6 @@ public class Gun : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Shoot();
-            returnToIdle = false;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            returnToIdle = true;
         }
     }
     private void Shoot()

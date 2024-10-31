@@ -19,15 +19,16 @@ public class Player : MonoBehaviour
     private bool isRunningDown;
     private bool isRunningLeftRight;
     private bool rev;
-    private bool returnToIdle = true;
-
-    /*
-    public bool IsAttcking()
-    {
-        return isAttacking;
-    }
-    */
-
+    private bool isAttackingUp;
+    private bool isAttackingDown;
+    private bool isAttackingLeft;
+    private bool isAttackingRight;
+    private bool isUpDown;
+    private bool isStandingUp;
+    private bool isStandingDown;
+    private bool isStandingRight;
+    private bool isStandingLeft;
+    private bool isShooting = false;
     public bool IsRunningUp()
     {
         return isRunningUp;
@@ -43,6 +44,42 @@ public class Player : MonoBehaviour
     public bool Rev()
     {
         return rev;
+    }
+    public bool IsAttackingUp()
+    {
+        return isAttackingUp;
+    }
+    public bool IsAttackingDown()
+    {
+        return isAttackingDown;
+    }
+    public bool IsAttackingRight()
+    {
+        return isAttackingRight;
+    }
+    public bool IsAttackingLeft()
+    {
+        return isAttackingLeft;
+    }
+    public bool IsStandingUp()
+    {
+        return isStandingUp;
+    }
+    public bool IsStandingDown()
+    {
+        return isStandingDown;
+    }
+    public bool IsStandingRight()
+    {
+        return isStandingRight;
+    }
+    public bool IsStandingLeft()
+    {
+        return isStandingLeft;
+    }
+    public bool ReturnToIdle()
+    {
+        return !isShooting;
     }
     private void HandleMovement()
     {
@@ -62,7 +99,6 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-
         inputVector = Vector2.zero;
 
         if (Input.GetKey(KeyCode.W))
@@ -84,29 +120,41 @@ public class Player : MonoBehaviour
         {
             inputVector.x = 1f;
         }
-        
-        running_move();
-        
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            isRunningUp = false;
-            isRunningDown = false;
-            isRunningLeftRight = false;
-            togetherY = false;
-            togetherX = false;
-            rev = false;
-            returnToIdle = false;
-        }
+        moving_mode(ref isShooting);
+        Animation(isShooting); 
     }
 
-    private void running_move()
+    private void moving_mode(ref bool isShooting)
     {
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            isShooting = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            isShooting = false;
+        }
+    }
+    private void Animation(bool isShooting)
+    {
+        isUpDown = false;
+
         isRunningUp = false;
         isRunningDown = false;
         isRunningLeftRight = false;
+        rev = false;
         togetherY = false;
         togetherX = false;
-        rev = false;
+        
+        isAttackingUp = false;
+        isAttackingDown = false;
+        isAttackingLeft = false;
+        isAttackingRight = false;
+
+        isStandingUp = false;
+        isStandingDown = false;
+        isStandingRight = false;
+        isStandingLeft = false;
 
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
@@ -114,12 +162,36 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W) && togetherY == false)
         {
-            isRunningUp = true;
+            if(isShooting == false)
+            {
+                isRunningUp = true;
+            }
+            else
+            {
+                isAttackingUp = true;
+            }
+            isUpDown = true;
         }
-
+        if (Input.GetKeyUp(KeyCode.W) && isShooting)
+        {
+            isStandingUp = true;
+        }     
+        
         if (Input.GetKey(KeyCode.S) && togetherY == false)
         {
-            isRunningDown = true;
+            if (isShooting == false)
+            {
+                isRunningDown = true;
+            }
+            else
+            {
+                isAttackingDown = true;
+            }
+            isUpDown = true;
+        }
+        if (Input.GetKeyUp(KeyCode.S) && isShooting)
+        {
+            isStandingDown = true;
         }
 
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
@@ -128,85 +200,42 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A) && togetherX == false)
         {
-            if (isRunningUp == false && isRunningDown == false)
+            if (isUpDown == false)
             {
-                isRunningLeftRight = true;
-                rev = true;
-            }
+                if (isShooting == false)
+                {
+                    isRunningLeftRight = true;
+                    rev = true;
+                }
+                else 
+                { 
+                    isAttackingLeft = true;
+                }
+            } 
         }
+        if (Input.GetKeyUp(KeyCode.A) && isShooting)
+        {
+            isStandingLeft = true;
+        }
+
         if (Input.GetKey(KeyCode.D) && togetherX == false)
         {
-            if (isRunningUp == false && isRunningDown == false)
+            if (isUpDown == false)
             {
-                isRunningLeftRight = true;
-                rev = false;
+                if (isShooting == false)
+                {
+                    isRunningLeftRight = true;
+                    rev = false;
+                }
+                else 
+                { 
+                    isAttackingRight = true;
+                }
             }
-        } 
-    }
-
-}
-
-
-
-/*private void Direction_move()
-{
-isRunningUp = false;
-isRunningDown = false;
-isRunningLeftRight = false;
-togetherY = false;
-togetherX = false;
-rev = false;
-
-inputVector = Vector2.zero;
-
-if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
-{
-    togetherY = true;
-}
-if (Input.GetKey(KeyCode.W) && togetherY == false)
-{
-    inputVector.y = 1f;
-    isRunningUp = true;
-}
-
-if (Input.GetKey(KeyCode.S) && togetherY == false)
-{
-    inputVector.y = -1f;
-    isRunningDown = true;
-}
-
-if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
-{
-    togetherX = true;
-}
-if (Input.GetKey(KeyCode.A) && togetherX == false)
-{
-    inputVector.x = -1f;
-    if (isRunningUp == false && isRunningDown == false)
-    {
-        isRunningLeftRight = true;
-        rev = true;
+        }
+        if (Input.GetKeyUp(KeyCode.D) && isShooting)
+        {
+            isStandingRight = true;
+        }
     }
 }
-
-if (Input.GetKey(KeyCode.D) && togetherX == false)
-{
-    inputVector.x = 1f;
-
-    if (isRunningUp == false && isRunningDown == false)
-    {
-        isRunningLeftRight = true;
-        rev = false;
-    }
-}
-    }
-//}
-
-if (isStart == false)
-{
-    isStart = true;
-    Direction_move();
-}
-if (Input.GetKeyDown(KeyCode.Alpha1))
-    Direction_move();
-*/
