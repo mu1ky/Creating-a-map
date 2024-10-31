@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System;
+using System.Net;
 
 public class Gun : MonoBehaviour
 {
@@ -13,64 +15,64 @@ public class Gun : MonoBehaviour
     private Vector3 _shotpoint_dir;
     [SerializeField] private int dam = 1;
     public GameObject DamageEffect;
-    //public LineRenderer line_rend;
-    private bool isAttackingUp = false;
-    private bool isAttackingDown = false;
-    private bool isAttackingLeft = false;
-    private bool isAttackingRight = false;
-    private bool returnToIdle = true;
-    public bool IsAttackingUp()
+    public bool isAttacking;
+    public bool active;
+
+    public bool IsAttacking()
     {
-        return isAttackingUp;
+        return isAttacking;
     }
-    public bool IsAttackingDown()
+
+    private void Awake()
     {
-        return isAttackingDown;
+        Instance = this;
     }
-    public bool IsAttackingLeft()
+    private void Start()
     {
-        return isAttackingLeft;
-    }
-    public bool IsAttackingRight()
-    {
-        return isAttackingRight;
-    }
-    public bool ReturnToIdle()
-    {
-        return returnToIdle;
+        isAttacking = true;
+        active = false;
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (isAttacking)
         {
+            active = true;
+        }
+        else
+        {
+            active = false;
+        }
+        if (active)
+        {
+            gameObject.SetActive(true);
             Shoot();
+        }
+        else
+        {
+            gameObject.SetActive(false);
         }
     }
     private void Shoot()
     {
-        //Instantiate(_bullet, _shotpoint.position, _shotpoint.rotation);
-        if (Input.GetKey(KeyCode.S))
+        if (Player.Instance.IsShootingDown())
         {
             _shotpoint_dir = -_shotpoint.up;
-            isAttackingDown = true;
         }
-        if (Input.GetKey(KeyCode.W))
+        if (Player.Instance.IsShootingUp())
         {
             _shotpoint_dir = _shotpoint.up;
-            isAttackingUp = true;
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Player.Instance.IsShootingLeft())
         {
             _shotpoint_dir = -_shotpoint.right;
-            isAttackingLeft = true;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Player.Instance.IsShootingRight())
         {
             _shotpoint_dir = _shotpoint.right;
-            isAttackingRight = true;
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            isAttacking = true;
             RaycastHit2D hit = Physics2D.Raycast(_shotpoint.position, _shotpoint_dir);
             if (hit)
             {

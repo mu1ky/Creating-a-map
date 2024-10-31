@@ -8,26 +8,24 @@ using UnityEngine.Rendering;
 
 public class PointShoot : MonoBehaviour
 {
-    private bool change_pos = false;
     private Vector3 _startPos = new Vector3(-0.45f, 0.05f, 0f);
-    private Vector3 _currentPos;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Player.Instance.IsAttackingDown())
         {
-            _currentPos = _startPos;
+            transform.localPosition = _startPos;
         }
-        if (Input.GetKey(KeyCode.W))
+        if (Player.Instance.IsAttackingUp())
         {
-            _currentPos = new Vector3(0.5f, 0.05f, 0f);
+            transform.localPosition = new Vector3(0.5f, 0.05f, 0f);
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Player.Instance.IsAttackingLeft())
         {
-            _currentPos = _startPos;
+            transform.localPosition = _startPos;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Player.Instance.IsAttackingRight())
         {
-            _currentPos = new Vector3(0.5f, 0.05f, 0f);
+            transform.localPosition = new Vector3(0.5f, 0.05f, 0f);
         }
     }
 }

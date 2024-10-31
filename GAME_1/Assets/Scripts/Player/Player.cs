@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 inputVector;
     [SerializeField] private float speed_player = 3f;
-    private float minspeed = 0.1f;
     private Vector2 speed_to_axis;
     private bool togetherY;
     private bool togetherX;
@@ -28,7 +27,11 @@ public class Player : MonoBehaviour
     private bool isStandingDown;
     private bool isStandingRight;
     private bool isStandingLeft;
-    private bool isShooting = false;
+    public bool isShooting = false;
+    private bool isShootingUp;
+    private bool isShootingDown;
+    private bool isShootingLeft;
+    private bool isShootingRight;
     public bool IsRunningUp()
     {
         return isRunningUp;
@@ -77,10 +80,31 @@ public class Player : MonoBehaviour
     {
         return isStandingLeft;
     }
+    public bool IsShootingUp()
+    {
+        return isShootingUp;
+    }
+    public bool IsShootingDown()
+    {
+        return isShootingDown;
+    }
+    public bool IsShootingRight()
+    {
+        return isShootingRight;
+    }
+    public bool IsShootingLeft()
+    {
+        return isShootingLeft;
+    }
+    public bool NowIsShooting()
+    {
+        return isShooting;
+    }
     public bool ReturnToIdle()
     {
         return !isShooting;
     }
+
     private void HandleMovement()
     {
         speed_to_axis = inputVector * (speed_player * Time.fixedDeltaTime);
@@ -120,11 +144,10 @@ public class Player : MonoBehaviour
         {
             inputVector.x = 1f;
         }
-        moving_mode(ref isShooting);
-        Animation(isShooting); 
+        Animation(moving_mode()); 
     }
 
-    private void moving_mode(ref bool isShooting)
+    public bool moving_mode()
     {
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -134,6 +157,7 @@ public class Player : MonoBehaviour
         {
             isShooting = false;
         }
+        return isShooting;
     }
     private void Animation(bool isShooting)
     {
@@ -156,6 +180,11 @@ public class Player : MonoBehaviour
         isStandingRight = false;
         isStandingLeft = false;
 
+        isShootingUp = false;
+        isShootingDown = false;
+        isShootingRight = false;
+        isShootingLeft = false;
+
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S))
         {
             togetherY = true;
@@ -169,12 +198,14 @@ public class Player : MonoBehaviour
             else
             {
                 isAttackingUp = true;
+                isShootingUp = true;
             }
             isUpDown = true;
         }
         if (Input.GetKeyUp(KeyCode.W) && isShooting)
         {
             isStandingUp = true;
+            isShootingUp = true;
         }     
         
         if (Input.GetKey(KeyCode.S) && togetherY == false)
@@ -186,12 +217,14 @@ public class Player : MonoBehaviour
             else
             {
                 isAttackingDown = true;
+                isShootingDown = true;
             }
             isUpDown = true;
         }
         if (Input.GetKeyUp(KeyCode.S) && isShooting)
         {
             isStandingDown = true;
+            isShootingDown = true;
         }
 
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
@@ -210,12 +243,14 @@ public class Player : MonoBehaviour
                 else 
                 { 
                     isAttackingLeft = true;
+                    isShootingLeft = true;
                 }
             } 
         }
         if (Input.GetKeyUp(KeyCode.A) && isShooting)
         {
             isStandingLeft = true;
+            isShootingLeft = true;
         }
 
         if (Input.GetKey(KeyCode.D) && togetherX == false)
@@ -230,12 +265,14 @@ public class Player : MonoBehaviour
                 else 
                 { 
                     isAttackingRight = true;
+                    isShootingRight = true;
                 }
             }
         }
         if (Input.GetKeyUp(KeyCode.D) && isShooting)
         {
             isStandingRight = true;
+            isShootingRight = true;
         }
     }
 }
