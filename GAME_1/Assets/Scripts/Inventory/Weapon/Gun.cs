@@ -15,9 +15,7 @@ public class Gun : MonoBehaviour
     private Vector3 _shotpoint_dir;
     [SerializeField] private int dam = 1;
     public GameObject DamageEffect;
-    public bool isAttacking;
-    public bool active;
-
+    public bool isAttacking = false;
     public bool IsAttacking()
     {
         return isAttacking;
@@ -27,33 +25,16 @@ public class Gun : MonoBehaviour
     {
         Instance = this;
     }
-    private void Start()
+    private void Update()
     {
-        isAttacking = true;
-        active = false;
-    }
-    void Update()
-    {
-        if (isAttacking)
+        if (Player.Instance.NowIsShooting() == true)
         {
-            active = true;
-        }
-        else
-        {
-            active = false;
-        }
-        if (active)
-        {
-            gameObject.SetActive(true);
             Shoot();
-        }
-        else
-        {
-            gameObject.SetActive(false);
         }
     }
     private void Shoot()
     {
+
         if (Player.Instance.IsShootingDown())
         {
             _shotpoint_dir = -_shotpoint.up;
@@ -70,9 +51,11 @@ public class Gun : MonoBehaviour
         {
             _shotpoint_dir = _shotpoint.right;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        Debug.Log("Shoot!");
+        if (InputControl.Instance.IsGetSpace_() == true)
         {
             isAttacking = true;
+            /*
             RaycastHit2D hit = Physics2D.Raycast(_shotpoint.position, _shotpoint_dir);
             if (hit)
             {
@@ -83,6 +66,11 @@ public class Gun : MonoBehaviour
                 }
                 Instantiate(DamageEffect, hit.point, Quaternion.identity);
             }
+            */
+        }
+        else
+        {
+            isAttacking = false;
         }
     }
 }

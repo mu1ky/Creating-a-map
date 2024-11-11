@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
     private Rigidbody2D rb;
+    public GameObject _gun;
     private Vector2 inputVector;
     [SerializeField] private float speed_player = 3f;
     private Vector2 speed_to_axis;
@@ -117,14 +118,17 @@ public class Player : MonoBehaviour
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
     }
+    private void Start()
+    {
+        _gun.SetActive(false);
+    }
     private void FixedUpdate()
     {
         HandleMovement();
     }
     private void Update()
     {
-        inputVector = Vector2.zero;
-
+        inputVector = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
             inputVector.y = 1f;
@@ -149,13 +153,15 @@ public class Player : MonoBehaviour
 
     public bool moving_mode()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKey(KeyCode.Alpha2))
         {
             isShooting = true;
+            _gun.SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKey(KeyCode.Alpha1))
         {
             isShooting = false;
+            _gun.SetActive(false);
         }
         return isShooting;
     }

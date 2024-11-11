@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerVisual : MonoBehaviour
 {
+    public static PlayerVisual Instance { get; private set; }
     private Animator anim;
     private SpriteRenderer spriteRenderer;
     private const string is_run_up = "IsRunningUp";
@@ -22,6 +23,7 @@ public class PlayerVisual : MonoBehaviour
     private const string idle = "ReturnToIdle";
     private void Awake()
     {
+        Instance = this;
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
