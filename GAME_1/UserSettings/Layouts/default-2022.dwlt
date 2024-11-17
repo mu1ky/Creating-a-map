@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 772.8
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Scene
   m_RootView: {fileID: 3}
   m_MinSize: {x: 875, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
@@ -974,9 +974,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 4.092519, y: -0.7336824, z: 0.062187836}
+    m_Target: {x: 28.754728, y: -13.695171, z: -0.08113888}
     speed: 2
-    m_Value: {x: 4.092519, y: -0.7336824, z: 0.062187836}
+    m_Value: {x: 28.754728, y: -13.695171, z: -0.08113888}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1026,9 +1026,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 3.7812254
+    m_Target: 18.113884
     speed: 2
-    m_Value: 3.7812254
+    m_Value: 18.113884
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1246,7 +1246,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 180}
+    scrollPos: {x: 0, y: 159}
     m_SelectedIDs: 7a850000
     m_LastClickedID: 34170
     m_ExpandedIDs: 000000007c8300007e8300003c8500007c85000000ca9a3bffffff7f
@@ -1374,7 +1374,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 60.799988
+  m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
